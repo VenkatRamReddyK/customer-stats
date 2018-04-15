@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html >
+<style>
+    table, th , td  {
+        border: 1px solid grey;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+    table tr:nth-child(odd) {
+        background-color: #f1f1f1;
+    }
+    table tr:nth-child(even) {
+        background-color: #ffffff;
+    }
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-sanitize.js"></script>
+<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+
+
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('CustomersCtrl', function($scope, $http, $interval) {
+        console.log("Customers ctrl started");
+
+        $scope.names = [];
+        $scope.slides = [];
+        var currIndex = 0;
+        $scope.myInterval = 500;
+//        self.model = {};
+//        self.model = {path1:'tibco1.jpg',path2:'images/tibco1.jpg'};
+//        $scope.imgPath = 'https://farm9.staticflickr.com/8455/8048926748_1bc624e5c9_d.jpg';
+//        $scope.getPath = function(){
+//            return 'public/images/tibco1.jpg';
+//        }
+        $scope.addSlide = function() {
+//            var newWidth = 600 + slides.length + 1;
+            // + newWidth + '/300'
+            $scope.slides.push({
+                image: 'images/tibco1.jpg',
+                text: ['Nice image','Awesome photograph','That is so cool','I love that'][currIndex],
+                id: currIndex++
+            });
+            $scope.slides.push({
+                image: 'images/tibco2.jpg',
+                text: ['Nice image','Awesome photograph','That is so cool','I love that'][currIndex],
+                id: currIndex++
+            });
+            $scope.slides.push({
+                image: 'images/tibco3.jpg',
+                text: ['Nice image','Awesome photograph','That is so cool','I love that'][currIndex],
+                id: currIndex++
+            });
+            $scope.slides.push({
+                image: 'images/tibco2.jpg',
+                text: ['Nice image','Awesome photograph','That is so cool','I love that'][currIndex],
+                id: currIndex++
+            });
+        };
+
+
+//        for (var i = 0; i < 4; i++) {
+            $scope.addSlide();
+//        }
+
+        $scope.updateData = function() {
+
+            console.log(' Loading .. ');
+
+            $http.get("/students").then(function (response) {
+                $scope.names = response.data.response;
+                console.log($scope.names);
+                //$scope.$digest();
+            }).catch(function (errorResponse) {
+                console.log(errorResponse);
+            });
+
+        };
+
+        stopTime = setTimeout($scope.updateData, 1000 );//1000 * 60 * 5
+
+        $scope.$on('$destroy', function() {
+            $interval.cancel(stopTime);
+        });
+
+    });
+</script>
+<body>
+
+<div ng-app="myApp">
+
+    <div ng-controller="CustomersCtrl as custCtrl">
+        <img ng-src="{{custCtrl.model.path1}}" style="height: 305px; width: 500px"/>
+        <img ng-src="{{custCtrl.model.path2}}" style="height: 305px; width: 500px"/>
+        <!--<table>-->
+            <!--names: <pre>{{names}}</pre>-->
+            <!--<tr ng-repeat="currentName in names">-->
+                <!--<td ng-bind="currentName.name"></td>-->
+                <!--<td ng-bind="currentName.count"></td>-->
+            <!--</tr>-->
+        <!--</table>-->
+
+        <!--<img ng-src="tibco2.jpg" style="height: 305px; width: 500px">-->
+        <!--<div style="height: 305px; width: 500px">-->
+            <!--<div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">-->
+                <!--<div uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">-->
+                    <!--<img ng-src="images/tibco2.jpg" style="height: 305px; width: 500px">-->
+                    <!--&lt;!&ndash;<div class="carousel-caption">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<h4>Slide {{slide.id}}</h4>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>{{slide.text}}</p>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>Hello </p>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+
+                            <div class="col-xs-12">
+                                <span>col 1 row 1</span>
+                            </div>
+                            <div class="col-xs-12">
+                                <span>col 1 row 2</span>
+                            </div>
+                            <div class="col-xs-12">
+                                <span>col 1 row 3</span>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+
+                            <div class="col-xs-12">
+                                <span>col 2 row 1</span>
+                            </div>
+                            <div class="col-xs-12">
+                                <span>col 2 row 2</span>
+                            </div>
+                            <div class="col-xs-12">
+                                <span>col 2 row 3</span>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="col-xs-12">
+                                <span>col 3 row 1</span>
+                            </div>
+                            <div class="col-xs-12">
+                                <span>col 3 row 2</span>
+                            </div>
+                            <div class="col-xs-12">
+                                <span>col 3 row 3</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+
+    <!--<div class="row">-->
+        <!--<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">-->
+
+            <!--<div class="col-xs-12">-->
+                <!--<span>col 1 row 1</span>-->
+            <!--</div>-->
+            <!--<div class="col-xs-12">-->
+                <!--<span>col 1 row 2</span>-->
+            <!--</div>-->
+            <!--<div class="col-xs-12">-->
+                <!--<span>col 1 row 3</span>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">-->
+
+            <!--<div class="col-xs-12">-->
+                <!--<span>col 2 row 1</span>-->
+            <!--</div>-->
+            <!--<div class="col-xs-12">-->
+                <!--<span>col 2 row 2</span>-->
+            <!--</div>-->
+            <!--<div class="col-xs-12">-->
+                <!--<span>col 2 row 3</span>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">-->
+            <!--<div class="col-xs-12">-->
+                <!--<span>col 3 row 1</span>-->
+            <!--</div>-->
+            <!--<div class="col-xs-12">-->
+                <!--<span>col 3 row 2</span>-->
+            <!--</div>-->
+            <!--<div class="col-xs-12">-->
+                <!--<span>col 3 row 3</span>-->
+            <!--</div>-->
+
+        <!--</div>-->
+
+    <!--</div>-->
+    <!--<img ng-src="{{getPath()}}"/>-->
+    <!--<a href='#'><img ng-src="{{imgPath}}"/></a>-->
+
+    <!--<img ng-src="{{imgPath}}"/>-->
+
+</div>
+
+</body>
+</html>
